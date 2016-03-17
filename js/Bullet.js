@@ -1,4 +1,4 @@
-function Bullet(x,y,type,dir,name)
+function Bullet(x,y,type,dir,name,power)
 {
 	Sprite.call(this, x, y, "bullet", 6);
 	
@@ -6,6 +6,7 @@ function Bullet(x,y,type,dir,name)
 	this.speed = 6;
 	this.dir = dir;
 	this.name = name;
+    this.power = power | 11;
 	
 	initXY.call(this);
 }
@@ -210,10 +211,11 @@ Bullet.prototype.hitTanks = function()
 			
 			if(this.type == 0)                                        //子弹是自己发射的
 			{
-				tanks[i].life --;
+				tanks[i].life -= this.power;
 				
-				if(tanks[i].life == 0)
+				if(tanks[i].life <= 0)
 				{
+                    tanks[i].life = 0;
 					tankScore = tanks[i].score;
 					
 					tanks.splice(i,1);
@@ -225,31 +227,36 @@ Bullet.prototype.hitTanks = function()
 			
 			else if(!tanks[i].isGod)
 			{
-				tanks[i].live --;
-				scoreBoard.drawPlayerLife(tanks[i].name,tanks[i].live);
-				sound.play("bomb0");
-				if(tanks[i].live == 0)
-				{
-					tanks.splice(i,1);
-					playerNum --;
-					
-					
-					
-					if(playerNum == 0) 
-					{
-						var bombFx = new BombFx(xx, yy, 0);
-						bombFxs.push(bombFx);
-						
-						gameState = STATE_GAMEOVER;
-						return;
-					}
-					
-					continue;
-				}
-				
-				initMyTank(tanks[i].name);
-				tankScore = 0;
-				isBomb = true;
+                tanks[i].life -= this.power;
+                if (tanks[i].life <= 0) {
+                    tanks[i].life = 0;
+                    tanks[i].live --;
+                    scoreBoard.drawPlayerLife(tanks[i].name,tanks[i].live);
+                    sound.play("bomb0");
+                    if(tanks[i].live <= 0)
+                    {
+                        tanks[i].live = 0;
+                        tanks.splice(i,1);
+                        playerNum --;
+                        
+                        
+                        
+                        if(playerNum == 0) 
+                        {
+                            var bombFx = new BombFx(xx, yy, 0);
+                            bombFxs.push(bombFx);
+                            
+                            gameState = STATE_GAMEOVER;
+                            return;
+                        }
+                        
+                        continue;
+                    }
+                    
+                    initMyTank(tanks[i].name);
+                    tankScore = 0;
+                    isBomb = true;
+                }
 			}
 			
 			

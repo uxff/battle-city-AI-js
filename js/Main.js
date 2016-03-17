@@ -10,7 +10,7 @@ var tankRun = new TankRun();
 
 var scoreBoard = new ScoreBoard();
 var sound = new Sound();
-var firstLife = 3;
+var firstLife = 300;
 
 var time;
 var tankNum = 0;												//Ì¹¿Ë³öÏÖÊý
@@ -131,7 +131,7 @@ document.onkeydown = function(e)
 
 		if(e.keyCode == K_9 &&  (gameState == STATE_SELECT) )
 		{
-			firstLife = 9;
+			firstLife = 90;
 		}
 		if(e.keyCode == K_2 &&  (gameState == STATE_PLAY || gameState == STATE_STAGE_INIT) ) nextStage();
 		if(e.keyCode == K_1 &&  (gameState == STATE_PLAY) )food.init();
@@ -189,6 +189,7 @@ function initMyTank(num)
 		player1.dir = UP;
 		player1.godTime = 300;
 		player1.isGod = true;
+        player1.life = 200;
 	}
 	else if(num == 2 && player2.live > 0)
 	{
@@ -197,6 +198,7 @@ function initMyTank(num)
 		player2.dir = UP;
 		player2.godTime = 300;
 		player2.isGod = true;
+        player2.life = 200;
 	}
 }
 
@@ -218,7 +220,7 @@ function initGame()
 
 	for(var i = 0; i < playerNum; i ++)
 	{
-		tanks[i].live =firstLife;
+		tanks[i].live = firstLife;
 		tanks[i].score = 0;
 	}
 
@@ -450,7 +452,7 @@ function pauseGame() {
 }
 
 // 作弊模式 无敌
-var IS_CHEAT = true;
+var IS_CHEAT = false;
 
 function playerAI() {
     if (IS_CHEAT) {

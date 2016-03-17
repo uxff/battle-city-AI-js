@@ -10,7 +10,7 @@ function Tank(x, y, src, speed , type)
 	this.isShot = false;
 	this.time = 0;
 	this.shotSpeed = 70;
-	this.life = 5;
+	this.life = 50;
 }
 
 Tank.prototype = new Sprite();
@@ -29,12 +29,15 @@ Tank.prototype.draw = function(canvas)
 	var myCanvas = document.getElementById(canvas);
 	var graphics = myCanvas.getContext("2d");
 	var img = document.getElementById("tankAll");
+	var xdrbmp = document.getElementById("xdrbmp");
 	
 	var xx = images[this.src][0];
 	var yy = images[this.src][1];
 	
 	graphics.drawImage(img,32 * this.dir + xx, yy, 32, 32,this.x + offerX,this.y + offerY,32,32) ;	
 	
+    // 绘制生命条
+	graphics.drawImage(xdrbmp, 0, 0, 2+this.life/2, 2, this.x + offerX,this.y + offerY,2+this.life/2,2) ;
 	
 	return;
 };

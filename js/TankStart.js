@@ -15,7 +15,8 @@ TankStart.prototype.draw = function(canvas)
 	var graphics = myCanvas.getContext("2d");
 	var img = document.getElementById("tankAll");
 	
-	graphics.drawImage(img, 32 * this.frame + images[this.src][0], images[this.src][1], 32, 32, this.x + offerX,this.y + offerY,32,32) ;	
+	graphics.drawImage(img, 32 * this.frame + images[this.src][0], images[this.src][1], 32, 32, this.x + offerX,this.y + offerY,32,32) ;
+    
 	
 	return;
 };

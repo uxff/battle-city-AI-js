@@ -6,8 +6,9 @@ function MyTank(x, y)
 	this.dir = UP;
 	this.score = 0;
 	this.name = 0;
+    this.life = 200;
 	
-	this.live = 100;
+	this.live = 10;//几条命
 	this.score = 0;
 }
 
@@ -18,6 +19,7 @@ MyTank.prototype.draw = function(canvas)
 	var myCanvas = document.getElementById(canvas);
 	var graphics = myCanvas.getContext("2d");
 	var img = document.getElementById("tankAll");
+	var xdrbmp = document.getElementById("xdrbmp");
 	
 	var tankx,tanky,shieldx,shieldy;
 	
@@ -38,6 +40,11 @@ MyTank.prototype.draw = function(canvas)
 	
 	graphics.drawImage(img, 32 * this.dir + tankx, tanky, 32, 32, this.x + offerX, this.y + offerY, 32, 32) ;	
 		
+    // 绘制生命条
+	graphics.drawImage(xdrbmp, 0, 0, 2+this.life/2, 2, this.x + offerX,this.y + offerY,2+this.life/2,2) ;
+    // 绘制第二生命条
+	graphics.drawImage(xdrbmp, 0, 20, 2+this.live/2, 2, this.x + offerX,this.y + offerY+3,2+this.live/2,2) ;
+	
 	
 	if(this.isGod)
 	{
@@ -100,18 +107,18 @@ Tank2.prototype = new Tank();
 function Tank3(x, y)
 {
 	Tank.call(this, x, y, "tank3", 1, 1);
-	this.life = 3;
+	this.life = 80; // 原来是3
 	this.score = 400;
 	return;
 }
 
 Tank3.prototype = new Tank();
 
-Tank3.prototype.draw = function(canvas)
-{
-	var myCanvas = document.getElementById(canvas);
-	var graphics = myCanvas.getContext("2d");
-	var img = document.getElementById("tankAll");
-	
-	graphics.drawImage(img, 32 * this.dir +(3 - this.life) * 128 + images["tank3"][0], images["tank3"][1], 32, 32, this.x + offerX, this.y + offerY, 32, 32) ;	
-};
+//Tank3.prototype.draw = function(canvas)
+//{
+//	var myCanvas = document.getElementById(canvas);
+//	var graphics = myCanvas.getContext("2d");
+//	var img = document.getElementById("tankAll");
+//	
+//	graphics.drawImage(img, 32 * this.dir +(3 - 3) * 128 + images["tank3"][0], images["tank3"][1], 32, 32, this.x + offerX, this.y + offerY, 32, 32) ;	
+//};
