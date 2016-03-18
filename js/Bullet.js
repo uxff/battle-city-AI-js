@@ -211,7 +211,9 @@ Bullet.prototype.hitTanks = function()
 			
 			if(this.type == 0)                                        //子弹是自己发射的
 			{
+                // 击中坦克
 				tanks[i].life -= this.power;
+                battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, this.power, this.type));
 				
 				if(tanks[i].life <= 0)
 				{
@@ -227,7 +229,10 @@ Bullet.prototype.hitTanks = function()
 			
 			else if(!tanks[i].isGod)
 			{
+                // 击中玩家
                 tanks[i].life -= this.power;
+                // 显示伤害文字
+                battleTexts.push(new BattleText(xx, yy*1-Math.random()*30, this.power, this.type));
                 if (tanks[i].life <= 0) {
                     tanks[i].life = 0;
                     tanks[i].live --;

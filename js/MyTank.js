@@ -43,7 +43,7 @@ MyTank.prototype.draw = function(canvas)
     // 绘制生命条
 	graphics.drawImage(xdrbmp, 0, 0, 2+this.life/2, 2, this.x + offerX,this.y + offerY,2+this.life/2,2) ;
     // 绘制第二生命条
-	graphics.drawImage(xdrbmp, 0, 20, 2+this.live/2, 2, this.x + offerX,this.y + offerY+3,2+this.live/2,2) ;
+	graphics.drawImage(xdrbmp, 0, 20, 2+this.live, 2, this.x + offerX,this.y + offerY+3,2+this.live,2) ;
 	
 	
 	if(this.isGod)

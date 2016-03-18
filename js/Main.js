@@ -10,7 +10,7 @@ var tankRun = new TankRun();
 
 var scoreBoard = new ScoreBoard();
 var sound = new Sound();
-var firstLife = 300;
+var firstLife = 9;
 
 var time;
 var tankNum = 0;												//Ì¹¿Ë³öÏÖÊý
@@ -30,6 +30,7 @@ var hitFxs = [];												//×Óµ¯±¬Õ¨Êý×é
 var bombFxs = [];												//Ì¹¿Ë±¬Õ¨Êý×é
 var tankStarts = [];											//Ì¹¿Ë¿ªÊ¼Êý×é
 var scoreNums = [];
+var battleTexts = [];
 
 var player1,player2;
 
@@ -131,7 +132,7 @@ document.onkeydown = function(e)
 
 		if(e.keyCode == K_9 &&  (gameState == STATE_SELECT) )
 		{
-			firstLife = 90;
+			firstLife = 9;
 		}
 		if(e.keyCode == K_2 &&  (gameState == STATE_PLAY || gameState == STATE_STAGE_INIT) ) nextStage();
 		if(e.keyCode == K_1 &&  (gameState == STATE_PLAY) )food.init();
@@ -390,6 +391,7 @@ function draw()
 	drawTankStarts();
 	drawFood();
 	drawScoreNums();
+    drawBattleTexts();
 }
 
 
