@@ -261,6 +261,7 @@ function clearStage()
 function addTank(x, y, type, name)
 {
 	var tank;
+
 	switch(type)
 	{
 		case 0: tank = new MyTank(x,y);
@@ -271,19 +272,27 @@ function addTank(x, y, type, name)
 				break;
 		case 3: tank = new Tank3(x,y);
 				break;
+		case 4: tank = new Tank4(x,y);
+				break;
 	}
 	if(tank.type == 0) {tank.name = name;}
 	tanks.push(tank);
 }
 
-function addTankStart(x, y)
+function addTankStart(x, y, type)
 {
-	var tankStart = new TankStart(x, y);
+	var tankStart = new TankStart(x, y, type);
 
 	tankStarts.push(tankStart);
 
+
 	tankNum ++;
 	scoreBoard.drawTankNum();
+}
+
+function addBossTankStart(x, y)
+{
+    return addTankStart(x, y, 4);
 }
 
 function addTanks()
@@ -294,11 +303,27 @@ function addTanks()
 	{
 		i = parseInt(time/intval);
 
-		if(tanks.length < (BOT_MAX_NUM + playerNum) && tankNum < 20)
+        //if(tankNum >= MAX_KILL_TO_LEVELUP && tanks.length == playerNum) nextStage();
+
+        if (tankNum < MAX_KILL_TO_LEVELUP-1) {
+            // 增加普通坦克
+            if (tanks.length < (BOT_MAX_NUM + playerNum)) {
+                if(tankNum % 4 == 2) food.init();
+                addTankStart(startLocation[i], 0);
+            }
+        } else if (tankNum == MAX_KILL_TO_LEVELUP-1) {
+            // 增加boss
+            addBossTankStart(startLocation[i], 0);
+        } else if (tankNum >= MAX_KILL_TO_LEVELUP ) {
+            // 下一级
+        }
+        // old code --->
+		if(tanks.length < (BOT_MAX_NUM + playerNum) && tankNum < MAX_KILL_TO_LEVELUP)
 		{
-			if(tankNum % 4 == 2) food.init();
-			addTankStart(startLocation[i], 0);
+			//if(tankNum % 4 == 2) food.init();
+			//addTankStart(startLocation[i], 0);
 		}
+        // old code <---
 	}
 	if(i == 2)
 	{

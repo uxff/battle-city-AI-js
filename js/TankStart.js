@@ -1,10 +1,11 @@
-function TankStart(x, y)
+function TankStart(x, y, type)
 {
 	Sprite.call(this, x, y, "tankStart", 32);
 	
 	this.frame = 0;
 	this.time =  0;
 	this.num = 0;
+    this.type = type;   // 为了区分是不是boss
 }
 
 TankStart.prototype = new Sprite();
@@ -44,7 +45,8 @@ function updataTankStarts()
 		
 		if(tankStarts[i].num >= 1 )
 		{
-			addTank(tankStarts[i].x, tankStarts[i].y, parseInt(Math.random() * 3) + 1);
+            var type = tankStarts[i].type == 4 ? 4 : (parseInt(Math.random() * 3) + 1);
+            addTank(tankStarts[i].x, tankStarts[i].y, type);
 			tankStarts.splice(i,1);
 			i --;
 		}	

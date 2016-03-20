@@ -271,7 +271,7 @@ Bullet.prototype.hitTanks = function()
 				bombFxs.push(bombFx);
 			}	
 			
-			if(tankNum >= 20 && tanks.length == playerNum) nextStage();
+			if(tankNum >= MAX_KILL_TO_LEVELUP && tanks.length == playerNum) nextStage();
 			return true;
 		}
 	}

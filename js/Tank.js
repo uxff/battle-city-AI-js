@@ -5,7 +5,7 @@ function Tank(x, y, src, speed , type)
 	this.dir = DOWN;
 	this.preDir = DOWN;
 	this.speed = speed;
-    // type:1=bot;0=player
+    // type:1=bot;0=player;2=boss
 	this.type = type;
 	this.isShot = false;
 	this.time = 0;

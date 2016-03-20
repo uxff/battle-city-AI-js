@@ -32,6 +32,8 @@ var SOUND_SILENCE = true;
 
 // 最大bot数量
 var BOT_MAX_NUM = 4;
+// 升级需要击杀的bot数量
+var MAX_KILL_TO_LEVELUP = 5;
 
 var STATE_INIT = 1;
 var STATE_PLAY = 2;
