@@ -60,7 +60,9 @@ MyTank.prototype.shot = function()
 	if(!this.isShot)
 	{	
 		this.isShot = true;
-		var bullet = new Bullet(this.x,this.y,this.type,this.dir,this.name);
+        var isCrit = Math.random()<=this.critRate ? 2:1;
+        var outPutDmg = (this.power+this.powerAdd)*isCrit;
+		var bullet = new Bullet(this.x,this.y,this.type,this.dir,this.name,outPutDmg);
 		bullets.push(bullet);
 		sound.play("attack");
 	}
@@ -122,3 +124,16 @@ Tank3.prototype = new Tank();
 //	
 //	graphics.drawImage(img, 32 * this.dir +(3 - 3) * 128 + images["tank3"][0], images["tank3"][1], 32, 32, this.x + offerX, this.y + offerY, 32, 32) ;	
 //};
+
+function Tank4(x, y)
+{
+	Tank.call(this, x, y, "tank3", 1, 1);
+	this.life = 500; // 原来是3
+	this.score = 400;
+    this.power = 20;
+    this.critRate = 0.4;
+	return;
+}
+
+Tank4.prototype = new Tank();
+

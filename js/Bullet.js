@@ -6,7 +6,7 @@ function Bullet(x,y,type,dir,name,power)
 	this.speed = 6;
 	this.dir = dir;
 	this.name = name;
-    this.power = power | 11;
+    this.power = power | 2;
 	
 	initXY.call(this);
 }
@@ -232,7 +232,7 @@ Bullet.prototype.hitTanks = function()
                 // 击中玩家
                 tanks[i].life -= this.power;
                 // 显示伤害文字
-                battleTexts.push(new BattleText(xx, yy*1-Math.random()*30, this.power, this.type));
+                battleTexts.push(new BattleText(xx, yy*1+Math.random()*30, this.power, this.type));
                 if (tanks[i].life <= 0) {
                     tanks[i].life = 0;
                     tanks[i].live --;

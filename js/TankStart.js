@@ -23,9 +23,9 @@ TankStart.prototype.draw = function(canvas)
 
 TankStart.prototype.updata = function()
 {
-	if(this.time%5 == 1) {this.frame++;}
+	if(this.time%4 == 1) {this.frame++;}
 
-	if(this.frame > 5)  
+	if(this.frame > 3)  
 	{
 		this.frame = 0;
 		this.num ++;
@@ -39,9 +39,10 @@ function updataTankStarts()
 {
 	for(var i = 0;i < tankStarts.length;i++)
 	{
+        // 绘制开始动画
 		tankStarts[i].updata();
 		
-		if(tankStarts[i].num >= 4 )
+		if(tankStarts[i].num >= 1 )
 		{
 			addTank(tankStarts[i].x, tankStarts[i].y, parseInt(Math.random() * 3) + 1);
 			tankStarts.splice(i,1);

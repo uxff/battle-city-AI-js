@@ -11,6 +11,10 @@ function Tank(x, y, src, speed , type)
 	this.time = 0;
 	this.shotSpeed = 70;
 	this.life = 50;
+    this.level = 1;
+    this.power = 10;
+    this.powerAdd = 0;
+    this.critRate = 0.1;
 }
 
 Tank.prototype = new Sprite();
@@ -256,7 +260,8 @@ Tank.prototype.shot = function()
 	if(!this.isShot)
 	{	
 		this.isShot = true;
-		var bullet = new Bullet(this.x,this.y,this.type,this.dir);
+        var isCrit = (Math.random()-this.critRate<=0)?2:1;
+		var bullet = new Bullet(this.x,this.y,this.type,this.dir,null,(this.power+this.powerAdd)*isCrit);
 		bullets.push(bullet);
 	}
 };

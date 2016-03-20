@@ -19,7 +19,7 @@ BattleText.prototype.draw = function (canvas)
 
     
     graphics.font = this.fontSize+"px Courier New";
-    graphics.fillStyle = 'rgb(255,'+(255-this.type*80)+',20)';
+    graphics.fillStyle = 'rgb(255,'+(240-this.type*80)+',20)';
     // 必须添加baseline属性 不然擦除不了 决定绘出文字的位置
     graphics.textBaseline = 'top';
     graphics.fillText(this.str, this.x + offerX - 10, this.y + offerY - 7);
