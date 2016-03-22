@@ -15,6 +15,10 @@ function Tank(x, y, src, speed , type)
     this.power = 10;
     this.powerAdd = 0;
     this.critRate = 0.1;
+    this.armor = 1;
+    Tank.instanceIndex = Tank.instanceIndex || 0;
+    Tank.instanceIndex++;
+    this.myIndex = Tank.instanceIndex;
 }
 
 Tank.prototype = new Sprite();
@@ -261,7 +265,7 @@ Tank.prototype.shot = function()
 	{	
 		this.isShot = true;
         var isCrit = (Math.random()-this.critRate<=0)?2:1;
-		var bullet = new Bullet(this.x,this.y,this.type,this.dir,null,(this.power+this.powerAdd)*isCrit);
+		var bullet = new Bullet(this.x,this.y,this.type,this.dir,null,(this.power+this.powerAdd)*isCrit,this.myIndex);
 		bullets.push(bullet);
 	}
 };
@@ -357,6 +361,21 @@ Tank.prototype.checkHit = function()
 	return false;
 };
 
+// 接受伤害
+Tank.prototype.sustainDmg = function(dmg)
+{
+    this.life -= dmg;
+    if (this.life < 0) {
+        this.life = 0;
+    }
+}
+
+// 接受治疗
+Tank.prototype.gainHeal = function(power)
+{
+    this.life += power;
+}
+
 function movePoint(tank)
 {
 	switch(tank.dir)
@@ -412,7 +431,15 @@ function drawTanks()
 	}
 }
 
-
+function findTankByIndex(myIndex)
+{
+	for(var i = 0; i < tanks.length ; i ++)
+	{
+		if (tanks[i].myIndex == myIndex) {
+            return tanks[i];
+        }
+	}
+}
 
 
 

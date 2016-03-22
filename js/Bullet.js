@@ -1,4 +1,4 @@
-function Bullet(x,y,type,dir,name,power)
+function Bullet(x,y,type,dir,name,power,makerIndex)
 {
 	Sprite.call(this, x, y, "bullet", 6);
 	
@@ -7,6 +7,7 @@ function Bullet(x,y,type,dir,name,power)
 	this.dir = dir;
 	this.name = name;
     this.power = power | 2;
+    this.makerIndex = makerIndex;
 	
 	initXY.call(this);
 }
@@ -212,7 +213,8 @@ Bullet.prototype.hitTanks = function()
 			if(this.type == 0)                                        //子弹是自己发射的
 			{
                 // 击中坦克
-				tanks[i].life -= this.power;
+				//tanks[i].life -= this.power;
+                tanks[i].sustainDmg(this.power);
                 battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, this.power, this.type));
 				
 				if(tanks[i].life <= 0)
@@ -230,7 +232,8 @@ Bullet.prototype.hitTanks = function()
 			else if(!tanks[i].isGod)
 			{
                 // 击中玩家
-                tanks[i].life -= this.power;
+                //tanks[i].life -= this.power;
+                tanks[i].sustainDmg(this.power);
                 // 显示伤害文字
                 battleTexts.push(new BattleText(xx, yy*1+Math.random()*30, this.power, this.type));
                 if (tanks[i].life <= 0) {
@@ -269,9 +272,15 @@ Bullet.prototype.hitTanks = function()
 			{
 				var bombFx = new BombFx(xx, yy, tankScore);
 				bombFxs.push(bombFx);
-			}	
+                // 给与发射的人奖励
+                var maker = findTankByIndex(this.makerIndex);
+                //console.log(maker);
+                if (maker != undefined) {
+                    maker.gainHeal(this.power/2);
+                }
+			}
 			
-			if(tankNum >= MAX_KILL_TO_LEVELUP && tanks.length == playerNum) nextStage();
+			if(tankNum >= MAX_KILL_TO_LEVELUP && tanks.length == playerNum) setTimeout('nextStage()', 250);
 			return true;
 		}
 	}
