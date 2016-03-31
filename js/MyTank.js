@@ -48,10 +48,14 @@ MyTank.prototype.draw = function(canvas)
 	graphics.drawImage(img, 32 * this.dir + tankx, tanky, 32, 32, this.x + offerX, this.y + offerY, 32, 32) ;	
 		
     // 绘制生命条
-	graphics.drawImage(xdrbmp, 0, 0, 2+this.life/2, 2, this.x + offerX,this.y + offerY-2,2+this.life/2,2) ;
+	graphics.drawImage(xdrbmp, 0, 0, 2+this.life/2, 2, this.x + offerX,this.y + offerY-3,2+this.life/2,2) ;
     // 绘制第二生命条
 	graphics.drawImage(xdrbmp, 0, 20, 2+this.live, 2, this.x + offerX,this.y + offerY+1,2+this.live,2) ;
-	
+	// html 汇报
+    document.getElementById('player1_hp').innerHTML = this.life;
+	// html 汇报
+    document.getElementById('player1_live').innerHTML = this.live;
+
 	
 	if(this.isGod)
 	{
@@ -68,8 +72,34 @@ MyTank.prototype.shot = function()
 	{	
 		this.isShot = true;
         var isCrit = Math.random()<=this.critRate ? 2:1;
+        //var isHit  = Math.random()<=this.hitRate ? 1:0;
         var outPutDmg = (this.power+this.powerAdd)*isCrit;
-		var bullet = new Bullet(this.x,this.y,this.type,this.dir,this.name,outPutDmg,this.myIndex);
+		var bullet = new Bullet(this.x,this.y,this.type,this.dir,this.name,outPutDmg,this);
+		bullets.push(bullet);
+        pShotTimes++;
+        document.getElementById('player1_shot_times').innerHTML = pShotTimes;
+		sound.play("attack");
+	}
+};
+
+MyTank.prototype.shotBig = function(bulletModel)
+{
+	if(!this.isShot)
+	{
+		this.isShot = true;
+        var isCrit = Math.random()<=this.critRate ? 2:1;
+        var outPutDmg = (this.power+this.powerAdd)*isCrit;
+		var bullet = null;
+
+        switch (bulletModel) {
+            case 1:
+                bullet = new BulletRocket(this.x,this.y,this.type,this.dir,this.name,outPutDmg,this);
+                break;
+            default:
+                bullet = new BulletRocket(this.x,this.y,this.type,this.dir,this.name,outPutDmg,this);
+                break;
+        }
+        console.log(bullet);
 		bullets.push(bullet);
 		sound.play("attack");
 	}

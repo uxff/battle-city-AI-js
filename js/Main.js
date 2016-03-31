@@ -39,6 +39,11 @@ var gameState = STATE_GAMESTART;
 var intval = 300;
 var nextIntval = 300;
 
+// by xdr
+var pShotTimes = 0;
+var pHitTimes  = 0;
+var pHitRate   = 0;
+
 function main()
 {
 	game = setInterval("loop()",21);
@@ -134,9 +139,9 @@ document.onkeydown = function(e)
 		{
 			firstLife = 9;
 		}
-		if(e.keyCode == K_2 &&  (gameState == STATE_PLAY || gameState == STATE_STAGE_INIT) ) nextStage();
-		if(e.keyCode == K_1 &&  (gameState == STATE_PLAY) )food.init();
-		if(e.keyCode == K_0 &&  (gameState == STATE_PLAY) )
+		if(e.keyCode == K_N &&  (gameState == STATE_PLAY || gameState == STATE_STAGE_INIT) ) nextStage();
+		//if(e.keyCode == K_1 &&  (gameState == STATE_PLAY) )food.init();
+		if(e.keyCode == K_Q &&  (gameState == STATE_PLAY) )
 		{
 			if(nextIntval == 300)
 			{
@@ -368,6 +373,7 @@ function keyboardEvent()
 			else if(key[K_RIGHT]) {player1.move(RIGHT);}
 		  // Victor Fang 20151129, Fix SPACE / ENTER bug. 
 			if(key[K_SPACE] || key[K_ENTER]) {player1.shot();}
+			if(key[K_1]) {player1.shotBig(1);}
 
 			/*if(key[K_P]) {
 				if(gameState == STATE_PLAY) {

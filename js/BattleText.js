@@ -40,6 +40,12 @@ BattleText.prototype.clear = function(canvas)
 	graphics.clearRect(this.x + offerX - 10, this.y + offerY - 7, graphics.measureText(this.str).width, this.fontSize);
 };
 
+BattleText.ARR_TYPE = {};
+BattleText.ARR_TYPE.player_dmg = 'player_dmg';
+BattleText.ARR_TYPE.player_hurt = 'player_hurt';//1
+BattleText.ARR_TYPE.player_miss = 'player_miss';
+BattleText.ARR_TYPE.bot_miss = 'bot_miss';
+
 
 function drawBattleTexts()
 {

@@ -1,4 +1,4 @@
-function Bullet(x,y,type,dir,name,power,makerIndex)
+function Bullet(x,y,type,dir,name,power,maker)
 {
 	Sprite.call(this, x, y, "bullet", 6);
 	
@@ -6,8 +6,8 @@ function Bullet(x,y,type,dir,name,power,makerIndex)
 	this.speed = 6;
 	this.dir = dir;
 	this.name = name;
-    this.power = power | 2;
-    this.makerIndex = makerIndex;
+    this.power = power || 2;
+    this.maker = maker; // the tank who shoot this bullet
 	
 	initXY.call(this);
 }
@@ -45,9 +45,19 @@ Bullet.prototype.draw = function(canvas)
 {
 	var myCanvas = document.getElementById(canvas);
 	var graphics = myCanvas.getContext("2d");
+
 	var img = document.getElementById("tankAll");
-	
-	graphics.drawImage(img, 6 * this.dir + images[this.src][0], images[this.src][1], 6, 6, this.x + offerX, this.y + offerY, 6, 6) ;	
+	graphics.drawImage(img, 6 * this.dir + images[this.src][0], images[this.src][1], 6, 6, this.x + offerX, this.y + offerY, 6, 6);
+    
+    // 使用canvas旋转
+    //var img = document.getElementById("rocket_32");
+    //graphics.save();
+    //graphics.translate(img.width/2, img.height/2);
+    //graphics.rotate(- this.dir * Math.PI/2);
+    //graphics.translate(-img.width/2, -img.height/2);
+    //graphics.drawImage(img, this.x + offerX, this.y + offerY);
+    //graphics.restore();
+
 };
 
 Bullet.prototype.move = function()
@@ -214,8 +224,17 @@ Bullet.prototype.hitTanks = function()
 			{
                 // 击中坦克
 				//tanks[i].life -= this.power;
-                tanks[i].sustainDmg(this.power);
-                battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, this.power, this.type));
+                var isHit = Math.random() <= (this.maker.hitRate / (1+tanks[i].hitRate));
+                if (!isHit) {
+                    // Miss
+                    battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, 'MISS', this.type));
+                } else {
+                    tanks[i].sustainDmg(this.power);
+                    battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, this.power, this.type));
+                    pHitTimes++;
+                    document.getElementById('player1_hit_times').innerHTML = pHitTimes;
+                    document.getElementById('player1_hit_rate').innerHTML = pHitTimes/pShotTimes;
+                }
 				
 				if(tanks[i].life <= 0)
 				{
@@ -233,9 +252,16 @@ Bullet.prototype.hitTanks = function()
 			{
                 // 击中玩家
                 //tanks[i].life -= this.power;
-                tanks[i].sustainDmg(this.power);
-                // 显示伤害文字
-                battleTexts.push(new BattleText(xx, yy*1+Math.random()*30, this.power, this.type));
+                
+                var isHit = Math.random() <= (this.maker.hitRate / (1+tanks[i].hitRate));
+                if (!isHit) {
+                    battleTexts.push(new BattleText(xx, yy*1+Math.random()*30, 'miss', this.type));
+                } else {
+                    tanks[i].sustainDmg(this.power);
+                    // 显示伤害文字
+                    battleTexts.push(new BattleText(xx, yy*1+Math.random()*30, this.power, this.type));
+                }
+
                 if (tanks[i].life <= 0) {
                     tanks[i].life = 0;
                     tanks[i].live --;
@@ -273,11 +299,11 @@ Bullet.prototype.hitTanks = function()
 				var bombFx = new BombFx(xx, yy, tankScore);
 				bombFxs.push(bombFx);
                 // 给与发射的人奖励
-                var maker = findTankByIndex(this.makerIndex);
-                //console.log(maker);
-                if (maker != undefined) {
-                    maker.gainHeal(this.power/2);
-                }
+                //var maker = this.maker;//findTankByIndex(this.makerIndex);
+                //if (maker != undefined) {
+                //    maker.gainHeal(this.power);
+                //    maker.gainPower(1);
+                //}
 			}
 			
 			if(tankNum >= MAX_KILL_TO_LEVELUP && tanks.length == playerNum) setTimeout('nextStage()', 250);
@@ -359,4 +385,33 @@ function drawBullets()
 	}
 }
 
+
+function BulletRocket(x,y,type,dir,name,power,maker)
+{
+	Sprite.call(this, x, y, "bullet", 6);
+	
+	this.type = type;
+	this.speed = 10;
+	this.dir = dir;
+	this.name = name;
+    this.power = 10;
+    this.power += power;
+    this.maker = maker;
+	
+	initXY.call(this);
+}
+
+BulletRocket.prototype = new Bullet();
+
+BulletRocket.prototype.draw = function(canvas)
+{
+	var myCanvas = document.getElementById(canvas);
+	var graphics = myCanvas.getContext("2d");
+	var img = document.getElementById("rocket_32");
+	pWidth = parseInt(this.dir/2) < 1 ? 11 : 32;
+    pHeight = parseInt(this.dir/2) < 1 ? 32 : 11;
+	graphics.drawImage(img, 32 * this.dir, 0, pWidth, pHeight, this.x + offerX, this.y + offerY, pWidth, pHeight) ;
+    //graphics.translate(img.width/2, img.height/2);
+    //graphics.rotate(90 * Math.PI / 180);
+};
 
