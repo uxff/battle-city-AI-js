@@ -224,16 +224,21 @@ Bullet.prototype.hitTanks = function()
 			{
                 // 击中坦克
 				//tanks[i].life -= this.power;
-                var isHit = Math.random() <= (this.maker.hitRate / (1+tanks[i].hitRate));
+                // 命中计算
+                pHitTimes++;
+                document.getElementById('player1_hit_times').innerHTML = pHitTimes;
+                var isHit = Math.random() <= (this.maker.hitRate / (1+tanks[i].dodgeRate));
                 if (!isHit) {
                     // Miss
                     battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, 'MISS', this.type));
+                    document.getElementById('player1_miss_times').innerHTML = pHitTimes - pHitOnTimes;
                 } else {
+                    // hit on
                     tanks[i].sustainDmg(this.power);
                     battleTexts.push(new BattleText(xx*1+Math.random()*30, yy, this.power, this.type));
-                    pHitTimes++;
-                    document.getElementById('player1_hit_times').innerHTML = pHitTimes;
-                    document.getElementById('player1_hit_rate').innerHTML = pHitTimes/pShotTimes;
+                    pHitOnTimes++;
+                    document.getElementById('player1_hit_on_times').innerHTML = pHitOnTimes;
+                    document.getElementById('player1_hit_rate').innerHTML = pHitOnTimes/pHitTimes;
                 }
 				
 				if(tanks[i].life <= 0)

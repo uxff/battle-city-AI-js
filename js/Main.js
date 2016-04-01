@@ -42,6 +42,7 @@ var nextIntval = 300;
 // by xdr
 var pShotTimes = 0;
 var pHitTimes  = 0;
+var pHitOnTimes  = 0;
 var pHitRate   = 0;
 
 function main()

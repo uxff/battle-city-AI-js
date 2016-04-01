@@ -16,7 +16,7 @@ function Tank(x, y, src, speed , type)
     this.powerAdd = 0;
     this.critRate = 0.1;
     this.hitRate = 0.90;
-    this.dodgeRate = 0.1;
+    this.dodgeRate = 0;
     this.armor = 1;
     Tank.instanceIndex = Tank.instanceIndex || 0;
     Tank.instanceIndex++;
